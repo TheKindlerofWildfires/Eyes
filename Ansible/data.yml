@@ -1,0 +1,14 @@
+---
+https://stackoverflow.com/questions/36059804/ansible-store-commands-stdout-in-new-variable/41244590
+- name: Gather data
+  hosts: all
+  become: true
+  become_user: e** 
+  tasks:
+    - name: User group
+      command: #whatever python runs
+    - name: File system
+    - name: Docker version 
+#Execute command and store data
+#Write data to file in local machine 
+  
