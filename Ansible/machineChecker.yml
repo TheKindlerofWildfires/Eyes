@@ -33,8 +33,9 @@
   - name: Collect storage
     shell: docker info | grep -i Storage
     register: Storage_Type
-  - local_action: 
+  - name: Write to file
+    local_action: 
       lineinfile:
         insertafter: EOF
-        line: "[{{ inventory_hostname }}][{{ Docker_Version }}][{{ Docker_Group }}][{{ Storage_Type }}]"
+        line: "[{{ inventory_hostname }}][{{ Docker_Version }}][{{ Docker_Group }}][{{ Storage_Type }}]" #Consider using std.out
         path: ./machineData.txt
