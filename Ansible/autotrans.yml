@@ -1,0 +1,22 @@
+---
+- name: Translate 1.6 to 2.2
+  hosts: localhost
+  gather_facts: no
+  vars_prompt:
+    - name: auth
+      prompt: "What is your auth? [name-key]"
+      private: yes
+  tasks: 
+  - name: Ensure translations dir
+    file: 
+      path: "~/translations"
+      state: directory 
+  - name: Load in the paths/namespaces
+    shell: cat paths.ini
+    register: paths
+  - name: Execute python with args
+    shell: python translator.py "{{item.split('-')[0]}} {{item.split('-')[1]}} {{auth.split('-')[0]}} {{auth.split('-')[1]}}"
+    with_items: "{{ paths.stdout}}"
+  - name: kubectl apply -f all
+    shell: kubectl apply -f "{{ item }}"
+    with_fileglob: "~/translations"
